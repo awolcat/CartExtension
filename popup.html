@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Global Cart</title>
+  <style>
+    body { width: 300px; padding: 10px; font-family: Arial, sans-serif; }
+    .item { margin-bottom: 10px; border-bottom: 1px solid #ccc; padding-bottom: 10px; display: flex; align-items: center; }
+    .item img { max-width: 50px; max-height: 50px; margin-right: 10px; }
+    .item-details { flex-grow: 1; }
+    .mode-selector { margin-bottom: 20px; }
+  </style>
+</head>
+<body>
+  <h1>Global Cart</h1>
+  <div class="mode-selector">
+    <label>
+      <input type="radio" name="mode" value="auto"> Auto Mode
+    </label>
+    <label>
+      <input type="radio" name="mode" value="manual" checked> Manual Mode
+    </label>
+  </div>
+  <div id="cartItems"></div>
+  <script src="popup.js"></script>
+</body>
+</html>
