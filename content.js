@@ -1,26 +1,27 @@
 // content.js
-function detectAddToCart() {
-    const observer = new MutationObserver((mutations) => {
-      mutations.forEach((mutation) => {
-        if (mutation.type === 'childList') {
-          const addedNodes = mutation.addedNodes;
-          addedNodes.forEach((node) => {
-            if (node.nodeType === Node.ELEMENT_NODE) {
-              checkForAddToCartButtons(node);
-            }
-          });
-        }
-      });
-    });
+// function detectAddToCart() {
+//     const observer = new MutationObserver((mutations) => {
+//       mutations.forEach((mutation) => {
+//         if (mutation.type === 'childList') {
+//           const addedNodes = mutation.addedNodes;
+//           addedNodes.forEach((node) => {
+//             if (node.nodeType === Node.ELEMENT_NODE) {
+//               checkForAddToCartButtons(node);
+//             }
+//           });
+//         }
+//       });
+//     });
   
-    observer.observe(document.body, { childList: true, subtree: true });
+//     observer.observe(document.body, { childList: true, subtree: true });
     
-    // Check for existing buttons on page load
-    checkForAddToCartButtons(document.body);
-  }
+//     // Check for existing buttons on page load
+//     checkForAddToCartButtons(document.body);
+//   }
   
-  function checkForAddToCartButtons(node) {
+  function checkForAddToCartButtons(node=document.body) {
     // Amazon-specific selector
+    console.log('app started');
     const amazonButtons = node.querySelectorAll('input[name="submit.addToCart"], input[name="submit.add-to-cart"]');
     
     // Generic selectors for other e-commerce sites
@@ -32,6 +33,7 @@ function detectAddToCart() {
         button.dataset.globalCartListener = 'true';
       }
     });
+    console.log(`found ${amazonButtons.length} Amazon buttons`);
   
     genericButtons.forEach(button => {
       if (!button.dataset.globalCartListener && 
@@ -42,6 +44,8 @@ function detectAddToCart() {
         button.dataset.globalCartListener = 'true';
       }
     });
+    // Write a string template to print length of amazonButtons and genericButtons
+    console.log(`found ${genericButtons.length} generic buttons`);
   }
   
   function handleAmazonAddToCart(event) {
@@ -71,12 +75,14 @@ function detectAddToCart() {
   function handleGenericAddToCart(event) {
     event.preventDefault();
     
-    const productName = document.querySelector('h1, .product-title').textContent.trim();
-    const productPrice = document.querySelector('.price, .product-price').textContent.trim();
-    const productImage = document.querySelector('img[itemprop="image"], .product-image img').src;
+    const productContainer = event.target.closest('.puis-card-container');
+    const productName = productContainer.querySelector('h2').textContent.trim();
+    // const productPrice = document.querySelector('.price, .product-price').textContent.trim();
+    // const productImage = document.querySelector('img[itemprop="image"], .product-image img').src;
   
-    const item = { name: productName, price: productPrice, image: productImage };
-  
+    // const item = { name: productName, price: productPrice, image: productImage };
+    const item = { name: productName };
+    //console.log(productName);
     addToGlobalCartWithMode(item);
   
     // Continue with the original add to cart action
@@ -151,4 +157,4 @@ function detectAddToCart() {
     }, 3000);
   }
   
-  detectAddToCart();
+  checkForAddToCartButtons();
