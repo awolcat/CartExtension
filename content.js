@@ -77,11 +77,11 @@
     
     const productContainer = event.target.closest('.puis-card-container');
     const productName = productContainer.querySelector('h2').textContent.trim();
-    // const productPrice = document.querySelector('.price, .product-price').textContent.trim();
-    // const productImage = document.querySelector('img[itemprop="image"], .product-image img').src;
+    const productPrice = document.querySelector('span.a-price span.a-offscreen').textContent.trim();
+    const productImage = productContainer.querySelector('img.s-image').src;
   
     // const item = { name: productName, price: productPrice, image: productImage };
-    const item = { name: productName };
+    const item = { name: productName, image: productImage };
     //console.log(productName);
     addToGlobalCartWithMode(item);
   
